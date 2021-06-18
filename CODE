@@ -47,19 +47,19 @@ using namespace std;
 
   void disp()
   {
-  cout<<"\n CUSTOMER NUMBER:"<<"\n"<<cno;
-  cout<<"\n CUSTOMER NAME :";
-  cout<<name;
+  cout<<"\n CUSTOMER NUMBER:"<<" "<<cno;
+  cout<<"\n CUSTOMER NAME :"<<" "<<name;
+
   cout<<"\n NATIONALITY:";
   puts(nationality);
-  cout<<"\n NO OF DAYS OF LODGING:"<<nod;
+  cout<<" "<<"NO OF DAYS OF LODGING:"<<" "<<nod;
   cout<<"\n CHECKIN DATE:";
   cout<<date;
   cout<<"\n TYPE OF ROOM (AC/NON/BOTH):";
   cout<<type;
   cout<<"\n NO OF ROOMS AC:"<<r;
   cout<<"\n NO OF ROOMS NON AC:"<<ro;
-
+  cout<<endl;
   }
 
 
@@ -78,11 +78,6 @@ class Bill:public inn
     void getbill();
 }obj1;
 
-
- //*****************************************************
-		   //Billing
- //*****************************************************
- 
     void Bill:: getbill()
   {
    float  total_amt1=0, total_amt2=0;
@@ -159,7 +154,7 @@ class Bill:public inn
    switch(ch)
    {
      case 1 : {   string room_type;
-	       cout<<"\n CHANGE THE ROOM TYPE TO(AC/NON AC/BOTH)";
+	       cout<<"\n CHANGE THE ROOM TYPE TO(AC/NON AC/BOTH)"<<endl;
 	       getline(cin>>ws,room_type);
 	       type=room_type; }
 	       break;
@@ -214,34 +209,30 @@ class Bill:public inn
     {
 
       x.open("inn.dat",ios::in|ios::binary);
-
-
-
-  while(!x.eof())
+       x.seekg(0);
+  while(x.read((char*)&obj,sizeof(obj)))
    {
     x.read((char*)&obj,sizeof(obj));
 
-    if(display_cno == obj.ret_cno()){
-
-
-    obj.disp();
-    break;
+    if(display_cno == obj.ret_cno())
+        obj.disp();
+     x.read((char*)&obj,sizeof(obj));
     }
-
-   }
    x.close();
    }
+
+
   //*****************************************************
 		     //info of all guests
  //*****************************************************
     void inn:: display()
    {
    x.open("inn.dat",ios::in|ios::binary);
-
-   while(x.read((char*)&obj,sizeof(obj)))
+   x.read((char*)&obj,sizeof(obj));
+   while(!x.eof())
    {
    obj.disp();
-
+   x.read((char*)&obj,sizeof(obj));
    }
    x.close();
    }
@@ -303,9 +294,9 @@ int main()
 	      cout<<"\n\n\t\t\t\t ....THANK YOU....";
 	      cout<<"\n\n\t\t\t  ... HOPE YOU ENJOYED YOUR STAY...";
 	      cout<<"\n\n\t\t\t       .. PLEASE VISIT AGAIN..               \n\n\n\n\n ";
-	      cout<<"******************************************************************************           ";  getch();
-	      getch();
+	      cout<<"******************************************************************************           ";  getch()
 	      exit(0);
+              getch();
 	      }   break;
      default: cout<<"\n INVALID OPTION"<<"\n PLEASE TRY AGAIN";
     }
